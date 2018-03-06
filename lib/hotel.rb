@@ -32,6 +32,17 @@ class Hotel
     end
   end
 
+  def find_available_rooms(start_date, end_date)
+    available_rooms = []
+    @rooms.each do |room|
+      if room.available?(start_date, end_date)
+        available_rooms << room
+      end
+    end
+    
+    return available_rooms
+  end
+
   # return a list of reservations for the given date
   def check_reservations(date)
     raise StandardError.new("Invalid date") if date < Date.today
@@ -50,6 +61,7 @@ class Hotel
     else
       raise StandardError.new"Invalid date: it's allowed to book at least one night at least one day in advance"
     end
-
   end
+
+
 end

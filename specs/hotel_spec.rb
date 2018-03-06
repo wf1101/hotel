@@ -1,5 +1,4 @@
 require_relative 'spec_helper'
-require 'pry'
 
 describe "Hotel class" do
   describe "initialize" do
@@ -133,6 +132,28 @@ describe "Hotel class" do
       proc {
         s_hotel.date_valid?(date_in, date_out)
       }.must_raise StandardError
+    end
+  end
+
+  describe "find_available_rooms method" do
+    it "returns a list of rooms which are available for a given date range" do
+      s_hotel = Hotel.new
+      date_in = Date.new(2018,6,20)
+      date_out = Date.new(2018,6,25)
+      7.times do
+        s_hotel.create_reservation(date_in, date_out)
+      end
+
+      start_date = Date.new(2018,6,21)
+      end_date = Date.new(2018,6,24)
+      found_rooms = s_hotel.find_available_rooms(start_date, end_date)
+
+      found_rooms.must_be_instance_of Array
+      found_rooms.length.must_equal 13
+      found_rooms.each do |room|
+        room.must_be_instance_of Room
+      end
+
     end
   end
 end
