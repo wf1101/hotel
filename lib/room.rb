@@ -17,9 +17,8 @@ class Room
     return flag
   end
 
-  def find_reservations(date)
-    reservations_on_date = @reservations
-    reservations_on_date.reject {|reservation| !(reservation.start_date...reservation.end_date).include?(date)}
+  def find_reservation(date)
+    reservations_on_date = @reservations.select {|reservation| (reservation.start_date...reservation.end_date).include?(date)}
     return reservations_on_date
   end
 

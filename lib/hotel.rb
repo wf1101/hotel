@@ -16,18 +16,20 @@ class Hotel
     return all_rooms
   end
 
-  # return a new reservation
   def create_reservation(start_date, end_date)
     room = find_next_room(start_date, end_date)
     new_reservation = Reservation.new(start_date, end_date, room)
     room.reservations << new_reservation
-    # binding.pry
+
     return new_reservation
   end
 
   def find_next_room(start_date, end_date)
     if date_valid?(start_date, end_date)
       next_room = rooms.find{|room| room.available?(start_date, end_date)}
+
+      raise ArgumentError.new("No available room") if next_room.nil?
+
       return next_room
     end
   end
@@ -39,17 +41,16 @@ class Hotel
         available_rooms << room
       end
     end
-    
+
     return available_rooms
   end
 
-  # return a list of reservations for the given date
   def check_reservations(date)
     raise StandardError.new("Invalid date") if date < Date.today
 
     reservations_on_date = []
     rooms.each do |room|
-      reservations_on_date += room.find_reservations(date)
+      reservations_on_date += room.find_reservation(date)
     end
 
     return reservations_on_date
@@ -59,8 +60,17 @@ class Hotel
     if start_date > Date.today && end_date > start_date
       return true
     else
-      raise StandardError.new"Invalid date: it's allowed to book at least one night at least one day in advance"
+      raise StandardError.new("Invalid date: it's allowed to book one night minimal at least one day in advance")
     end
+  end
+
+  def create_block(start_date, end_date, number_of_rooms, discounted_rate)
+    raise StandardError.new("Invalid number") if number_of_rooms > 5 || number_of_rooms < 3
+
+
+
+
+
   end
 
 

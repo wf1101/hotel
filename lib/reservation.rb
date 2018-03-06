@@ -5,7 +5,6 @@ class Reservation
     @start_date = start_date
     @end_date = end_date
     @room = room
-    # @guest = guest
   end
 
   def overlap?(first_date, second_date)
@@ -17,6 +16,5 @@ class Reservation
   def get_cost
     return (end_date - start_date) * 200
   end
-
 
 end
