@@ -8,11 +8,15 @@ class Room
 
   def available?(start_date, end_date)
     flag = true
+
+    # return flag = false if blocked?(start_date, end_date)
+
     @reservations.each do |reservation|
       if reservation.overlap?(start_date, end_date)
         flag = false
       end
     end
+
 
     return flag
   end
@@ -24,6 +28,11 @@ class Room
 
   def add_reservation(reservation)
     @reservations << reservation
+  end
+
+  def blocked?(start_date, end_date)
+
+
   end
 
 end
