@@ -24,8 +24,8 @@ class Block
   # end
 
   # def reserve(room)
-  #   new_reservation = Reservation.new(@start_date, @end_date, next_room)
-  #
+  #   new_reservation = Reservation.new(@start_date, @end_date, room)
+  # end
   #   # next_room.reservations << new_reservation
   #   return new_reservation
   # end

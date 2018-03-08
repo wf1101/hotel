@@ -327,20 +327,55 @@ describe "Admin class" do
       # binding.pry
       rooms.length.must_equal 2
       w_block.rooms.length.must_equal 4
-      # rooms[0].must_equal w_block.rooms[2]
-      # rooms[1].must_equal w_block.rooms[3]
+      rooms[0].must_equal w_block.rooms[2]
+      rooms[1].must_equal w_block.rooms[3]
     end
   end
 
   describe "find_next_block_room method" do
     it "return firt available room in a block" do
+      s_hotel = Admin.new
+      date_in = Date.new(2018,6,20)
+      date_out = Date.new(2018,6,25)
+      number = 4
+      rate = 188
+      w_block = s_hotel.create_block(date_in, date_out, number, rate)
+
+      w_room = s_hotel.find_next_block_room(w_block)
+      w_room.id.must_equal 1
+    end
+
+    it "raises an error when try to reserve a room in block when no available rooms" do
+      s_hotel = Admin.new
+      date_in = Date.new(2018,6,20)
+      date_out = Date.new(2018,6,25)
+      number = 4
+      rate = 188
+      w_block = s_hotel.create_block(date_in, date_out, number, rate)
+
+      number.times do
+        s_hotel.reserve_block_room(w_block)
+      end
+
+      proc {
+        s_hotel.find_next_block_room(w_block)
+      }.must_raise ArgumentError
 
     end
   end
 
   describe "reserve_block_room method" do
     it "can reserve a room in a block" do
+      s_hotel = Admin.new
+      date_in = Date.new(2018,6,20)
+      date_out = Date.new(2018,6,25)
+      number = 4
+      rate = 188
+      w_block = s_hotel.create_block(date_in, date_out, number, rate)
+      w_res =         s_hotel.reserve_block_room(w_block)
 
+      w_res.must_be_instance_of Reservation
+      s_hotel.check_block_rooms(w_block).length.must_equal 3
     end
   end
 

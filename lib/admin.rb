@@ -27,22 +27,14 @@ class Admin
   end
 
   def find_next_room(start_date, end_date)
-    # if date_valid?(start_date, end_date)
-    #   next_room = @rooms.find{|room| room.available?(start_date, end_date)}
-    # binding.pry
     available_rooms = find_available_rooms(start_date, end_date)
     raise ArgumentError.new("No available room") if available_rooms.empty?
 
     return available_rooms.first
-
-    #   return next_room
-    # end
   end
 
   def find_available_rooms(start_date, end_date)
-
     date_valid?(start_date, end_date)
-
     available_rooms = @rooms_reservations.keys
 
     @rooms_reservations.each do |room, reservations|
@@ -64,10 +56,6 @@ class Admin
         reservations_on_date << reservation if date_range.include?(date)
       end
     end
-
-    # rooms.each do |room|
-    #   reservations_on_date += room.find_reservation(date)
-    # end
 
     return reservations_on_date
   end
@@ -95,9 +83,7 @@ class Admin
 
     raise ArgumentError.new("No enough rooms") if available_rooms.length < number_of_rooms
 
-    block_rooms = available_rooms.first(number_of_rooms)
-
-    return block_rooms
+    return  available_rooms.first(number_of_rooms)
   end
 
   def list_blocked_rooms(start_date, end_date)
@@ -114,16 +100,11 @@ class Admin
   end
 
   def check_block_rooms(block)
-    unbooked_rooms = block.rooms
-    unbooked_rooms.each do |room|
-      @rooms_reservations[room].each do |reservation|
-        if reservation.start_date == block.start_date && reservation.end_date == block.end_date
-          unbooked_rooms.delete(room)
-        end
+    return block.rooms.reject do |room|
+      @rooms_reservations[room].any? do |res|
+        res.start_date == block.start_date && res.end_date == block.end_date
       end
     end
-    # binding.pry
-    return unbooked_rooms
   end
 
   def find_next_block_room(block)
