@@ -24,24 +24,4 @@ describe "Block class" do
     end
   end
 
-  # describe "available_rooms method" do
-  #   it "can return a list of available rooms in the block" do
-  #     w_block = Block.new(date_in, date_out, rate, rooms)
-  #     w_rooms = w_block.available_rooms(date_in, date_out)
-  #     w_rooms.must_be_instance_of Array
-  #     w_rooms.length.must_equal 3
-  #   end
-  #
-  # end
-
-  # describe "reserve method" do
-  #   it "can reserve a room which is available" do
-  #     w_block = Block.new(date_in, date_out, rate, rooms)
-  #     room = Room.new(5)
-  #     new_reservation = w_block(room)
-  #     new_reservation.must_be_instance_of Reservation
-  #
-  #   end
-  # end
-
 end

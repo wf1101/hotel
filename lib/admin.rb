@@ -1,5 +1,3 @@
-require 'pry'
-
 class Admin
   attr_reader :rooms_reservations, :blocks
 
@@ -8,7 +6,6 @@ class Admin
     @blocks = []
   end
 
-  # create a hash storing 20 pairs key - room;value - list of reservations
   def create_rooms
     all_rooms = {}
     20.times do |i|

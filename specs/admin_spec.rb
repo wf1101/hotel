@@ -74,20 +74,9 @@ describe "Admin class" do
       number = 4
       rate = 188
       w_block = s_hotel.create_block(date_in, date_out, number, rate)
-      # binding.pry
       new_reservation = s_hotel.create_reservation(date_in, date_out)
       w_block.rooms.wont_include new_reservation.room
     end
-
-    # it "can change the room's status to unavailable" do
-    #   s_hotel = Admin.new
-    #   date_in = Date.new(2018,5,20)
-    #   date_out = Date.new(2018,5,25)
-    #   new_reservation = s_hotel.create_reservation(date_in, date_out)
-    #
-    #   result = new_reservation.room.available?(date_in, date_out)
-    #   result.must_equal false
-    # end
 
     it "can raise an error when no room is available" do
       s_hotel = Admin.new
@@ -253,6 +242,7 @@ describe "Admin class" do
       proc{
         s_hotel.create_block(date_in, date_out, number_1, rate)
       }.must_raise ArgumentError
+      
       proc{
         s_hotel.create_block(date_in, date_out, number_2, rate)
       }.must_raise ArgumentError
@@ -319,12 +309,11 @@ describe "Admin class" do
       rate = 188
 
       w_block = s_hotel.create_block(date_in, date_out, number, rate)
-      # binding.pry
       s_hotel.reserve_block_room(w_block)
       s_hotel.reserve_block_room(w_block)
 
       rooms = s_hotel.check_block_rooms(w_block)
-      # binding.pry
+
       rooms.length.must_equal 2
       w_block.rooms.length.must_equal 4
       rooms[0].must_equal w_block.rooms[2]
