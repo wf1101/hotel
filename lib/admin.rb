@@ -51,21 +51,14 @@ class Admin
       end
     end
 
-    return available_rooms - list_block_rooms(start_date, end_date)
+    return available_rooms - list_blocked_rooms(start_date, end_date)
   end
-
-  # @rooms.each do |room|
-  #   if room.available?(start_date, end_date) && blocked?(start_date, end_date)
-  #     available_rooms << room
-  #   end
-  # end
-  #
 
   def check_reservations(date)
     raise StandardError.new("Invalid date") if date < Date.today
 
     reservations_on_date = []
-    @rooms.values.each do |reservations|
+    @rooms_reservations.values.each do |reservations|
       reservations.each do |reservation|
         date_range = (reservation.start_date...reservation.end_date)
         reservations_on_date << reservation if date_range.include?(date)
@@ -96,22 +89,24 @@ class Admin
   end
 
   def find_block_rooms(start_date, end_date, number_of_rooms)
-    raise StandardError.new("Invalid number, minimal 3 and maximum 5 rooms") if number_of_rooms > 5 || number_of_rooms < 3
+    raise ArgumentError.new("Invalid number, minimal 3 and maximum 5 rooms") if number_of_rooms > 5 || number_of_rooms < 3
 
     available_rooms = find_available_rooms(start_date, end_date)
 
-    raise ArgumentError.new("No enough rooms") if available_rooms < number_of_rooms
+    raise ArgumentError.new("No enough rooms") if available_rooms.length < number_of_rooms
 
-    block_rooms = available_rooms.fisrt(number_of_rooms)
+    block_rooms = available_rooms.first(number_of_rooms)
 
     return block_rooms
   end
 
-  def list_block_rooms(start_date, end_date)
+  def list_blocked_rooms(start_date, end_date)
+    date_valid?(start_date, end_date)
+
     blocked_rooms = []
     @blocks.each do |block|
-      if start_date >= block.end_date || end_date <= block.start_date
-        blocked_rooms = block.rooms
+      if start_date < block.end_date || end_date > block.start_date
+        blocked_rooms += block.rooms
       end
     end
 
@@ -119,23 +114,23 @@ class Admin
   end
 
   def check_block_rooms(block)
-    unbooked_rooms = []
-    block.rooms.each do |room|
-      @rooms[room].each do |reservation|
-        if !reservations.overlap?(block.start_date, block.end_date)
-          unbooked_rooms << room
+    unbooked_rooms = block.rooms
+    unbooked_rooms.each do |room|
+      @rooms_reservations[room].each do |reservation|
+        if reservation.start_date == block.start_date && reservation.end_date == block.end_date
+          unbooked_rooms.delete(room)
         end
       end
     end
-
+    # binding.pry
     return unbooked_rooms
   end
 
   def find_next_block_room(block)
-    available_rooms = check_block_rooms(block)
-    raise ArgumentError.new("No available room in the block") if available_rooms.empty?
+    available_block_rooms = check_block_rooms(block)
+    raise ArgumentError.new("No available room in the block") if available_block_rooms.empty?
 
-    return available_rooms.first
+    return available_block_rooms.first
   end
 
   def reserve_block_room(block)
