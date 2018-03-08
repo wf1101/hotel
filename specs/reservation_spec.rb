@@ -7,6 +7,7 @@ describe "Reservation class" do
       date_out = Date.new(2018,6,25)
       room = Room.new(10)
       reservation = Reservation.new(date_in, date_out, room)
+
       reservation.must_be_instance_of Reservation
       reservation.must_respond_to :start_date
       reservation.must_respond_to :end_date
@@ -39,10 +40,20 @@ describe "Reservation class" do
       date_in_2 = date_out
       date_out_2 = Date.new(2018,6,29)
 
+      date_in_3 = Date.new(2018,6,22)
+      date_out_3 = Date.new(2018,6,24)
+      date_in_4 = Date.new(2018,6,18)
+      date_out_4 = Date.new(2018,6,30)
+
       result_1 = reservation.overlap?(date_in_1, date_out_1)
       result_2 = reservation.overlap?(date_in_2, date_out_2)
+      result_3 = reservation.overlap?(date_in_3, date_out_3)
+      result_4 = reservation.overlap?(date_in_4, date_out_4)
+
       result_1.must_equal false
       result_2.must_equal false
+      result_3.must_equal true
+      result_4.must_equal true
     end
   end
 
@@ -56,6 +67,5 @@ describe "Reservation class" do
       reservation.get_cost.must_equal cost
     end
   end
-
 
 end

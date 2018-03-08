@@ -1,10 +1,10 @@
 require_relative 'spec_helper'
 
-describe "Hotel class" do
+describe "Admin class" do
   describe "initialize" do
     it "can create an instance of Hotel with 20 rooms" do
-      s_hotel = Hotel.new
-      s_hotel.must_be_instance_of Hotel
+      s_hotel = Admin.new
+      s_hotel.must_be_instance_of Admin
 
       s_hotel.rooms.each do |room|
         room.must_be_instance_of Room
@@ -16,7 +16,7 @@ describe "Hotel class" do
 
   describe "create_reservation method" do
     it "can create a new reservation" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_in = Date.new(2018,5,20)
       date_out = Date.new(2018,5,25)
       new_reservation = s_hotel.create_reservation(date_in, date_out)
@@ -25,7 +25,7 @@ describe "Hotel class" do
     end
 
     it "can add the new reservation to the room's reservations" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_in = Date.new(2018,5,20)
       date_out = Date.new(2018,5,25)
       new_reservation = s_hotel.create_reservation(date_in, date_out)
@@ -34,7 +34,7 @@ describe "Hotel class" do
     end
 
     it "can reserve a room stars at the same day that another reservation ends" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_in = Date.new(2018,6,20)
       date_out = Date.new(2018,6,25)
       6.times do
@@ -51,7 +51,7 @@ describe "Hotel class" do
     end
 
     it "raises a StandardError when reservaing a room within invalid dates" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_today = Date.today
       date_in = Date.new(2018,4,20)
       date_out = Date.new(2018,2,25)
@@ -66,7 +66,7 @@ describe "Hotel class" do
     end
 
     it "can change the room's status to unavailable" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_in = Date.new(2018,5,20)
       date_out = Date.new(2018,5,25)
       new_reservation = s_hotel.create_reservation(date_in, date_out)
@@ -76,7 +76,7 @@ describe "Hotel class" do
     end
 
     it "can raise an error when no room is available" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_in = Date.new(2018,6,20)
       date_out = Date.new(2018,6,25)
       20.times do
@@ -90,7 +90,7 @@ describe "Hotel class" do
   end
 
   describe "find_next_room method" do
-    s_hotel = Hotel.new
+    s_hotel = Admin.new
     date_in = Date.new(2018,4,20)
     date_out = Date.new(2018,4,25)
     7.times do
@@ -118,7 +118,7 @@ describe "Hotel class" do
     end
 
     it "can raise an error when no room is available" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_in = Date.new(2018,6,20)
       date_out = Date.new(2018,6,25)
       20.times do
@@ -133,7 +133,7 @@ describe "Hotel class" do
 
   describe "check_reservations method" do
     it "returns a list of reservations on date" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_in = Date.new(2018,6,20)
       date_out = Date.new(2018,6,25)
       7.times do
@@ -153,14 +153,14 @@ describe "Hotel class" do
 
   describe "date_valid? method" do
     it "returns true if date range is valid" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_in = Date.new(2018,6,20)
       date_out = Date.new(2018,6,25)
       s_hotel.date_valid?(date_in, date_out).must_equal true
     end
 
     it "raises StandardError if date range is including today or earlier than today" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_in = Date.today
       date_out = Date.new(2018,6,25)
       proc {
@@ -169,7 +169,7 @@ describe "Hotel class" do
     end
 
     it "raises StandardError if date range is earlier than today" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_in = Date.new(2018,1,30)
       date_out = Date.new(2018,2,2)
       proc {
@@ -180,7 +180,7 @@ describe "Hotel class" do
 
   describe "find_available_rooms method" do
     it "returns a list of rooms which are available for a given date range" do
-      s_hotel = Hotel.new
+      s_hotel = Admin.new
       date_in = Date.new(2018,6,20)
       date_out = Date.new(2018,6,25)
       7.times do
