@@ -1,24 +1,21 @@
 require 'pry'
 class Room
   attr_reader :id, :reservations
+  attr_accessor :rate
   def initialize(id)
     @id = id
     @reservations = []
+    @rate = 200
   end
 
   def available?(start_date, end_date)
-    flag = true
-
-    # return flag = false if blocked?(start_date, end_date)
-
     @reservations.each do |reservation|
       if reservation.overlap?(start_date, end_date)
-        flag = false
+        return false
       end
     end
 
-
-    return flag
+    return true
   end
 
   def find_reservation(date)
@@ -28,11 +25,6 @@ class Room
 
   def add_reservation(reservation)
     @reservations << reservation
-  end
-
-  def blocked?(start_date, end_date)
-
-
   end
 
 end

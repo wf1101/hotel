@@ -1,10 +1,11 @@
 require 'pry'
 
-class Hotel
-  attr_reader :rooms
+class Admin
+  attr_reader :rooms, :blocks
 
   def initialize
     @rooms = create_rooms
+    @blocks = []
   end
 
   def create_rooms
@@ -25,19 +26,24 @@ class Hotel
   end
 
   def find_next_room(start_date, end_date)
-    if date_valid?(start_date, end_date)
-      next_room = @rooms.find{|room| room.available?(start_date, end_date)}
+    # if date_valid?(start_date, end_date)
+    #   next_room = @rooms.find{|room| room.available?(start_date, end_date)}
+    # binding.pry
+    raise ArgumentError.new("No available room") if find_available_rooms(start_date, end_date).empty?
 
-      raise ArgumentError.new("No available room") if next_room.nil?
+    return find_available_rooms(start_date, end_date).first
 
-      return next_room
-    end
+    #   return next_room
+    # end
   end
 
   def find_available_rooms(start_date, end_date)
+
+    date_valid?(start_date, end_date)
+
     available_rooms = []
     @rooms.each do |room|
-      if room.available?(start_date, end_date)
+      if room.available?(start_date, end_date) && blocked?(start_date, end_date)
         available_rooms << room
       end
     end
@@ -65,20 +71,44 @@ class Hotel
   end
 
   def create_block(start_date, end_date, number_of_rooms, discounted_rate)
+
+    block_rooms = find_block_rooms(start_date, end_date, number_of_rooms)
+
+    new_block = Block.new(start_date, end_date, discounted_rate, block_rooms)
+
+    block_rooms.each do |block_room|
+      block_room.blocks << new_block
+    end
+
+    return new_block
+  end
+
+  def find_block_rooms(start_date, end_date, number_of_rooms)
     raise StandardError.new("Invalid number") if number_of_rooms > 5 || number_of_rooms < 3
 
     available_rooms = find_available_rooms(start_date, end_date)
+
     raise ArgumentError.new("No enough rooms") if available_rooms < number_of_rooms
 
     block_rooms = available_rooms.fisrt(number_of_rooms)
 
-    new_block = Block.new(start_date, end_date, discounted_rate, block_rooms)
-    return new_block
+    return block_rooms
+  end
+
+  def blocked?(room, start_date, end_date)
+    @blocks.each do |block|
+      if block.start_date == start_date && black.end_date == end_date
+        return true if block.rooms.include?(room)
+      end
+    end
+
+    return false
   end
 
   def check_block_rooms(block)
     block.available_rooms
   end
+
 
 
 
