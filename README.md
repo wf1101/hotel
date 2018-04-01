@@ -1,6 +1,5 @@
-# Hotel
-
-## Learning Goals
+Hotel
+Learning Goals
 
 Reinforce and practice all of the Ruby and programming concepts we've covered in class so far:
 - Design a system using object-oriented principles
@@ -12,7 +11,7 @@ This is a [stage 3](https://github.com/Ada-Developers-Academy/pedagogy/blob/mast
 
 This project is due before class **Monday March 12th**.
 
-## Introduction
+Introduction
 
 Your company has been contracted to build a booking system for a small hotel. This system will be used by employees working at the front desk, and will not be available to the general public.
 
@@ -38,7 +37,7 @@ We will use the same project structure we used for the previous project. Classes
 1. Clone the repository to your computer
 1. Create/copy a rakefile to run your tests
 1. Create the `specs/spec_helper.rb` file to load your classes and start `simplecov`. This file will load all the required gems and source files your spec files need so they only need to require the helper.
-    - Each of your spec files should `require_relative` the spec helper file.
+- Each of your spec files should `require_relative` the spec helper file.
 1. Create a test to check the instantiation of one of your object types (**RED**)
 1. Create the class for the object tested in the step above (**GREEN**)
 1. Use `git add`, `commit` and `push` commands to push your initial code to GitHub
@@ -112,9 +111,9 @@ If you are not familiar with what a block of hotel rooms, here is a brief descri
 ### User Stories
 
 - As an administrator, I can create a block of rooms
-    - To create a block you need a date range, collection of rooms and a discounted room rate
-    - The collection of rooms should only include rooms that are available for the given date range
-    - If a room is set aside in a block, it is not available for reservation by the general public, nor can it be included in another block
+- To create a block you need a date range, collection of rooms and a discounted room rate
+- The collection of rooms should only include rooms that are available for the given date range
+- If a room is set aside in a block, it is not available for reservation by the general public, nor can it be included in another block
 - As an administrator, I can check whether a given block has any rooms available
 - As an administrator, I can reserve a room from within a block of rooms
 
@@ -133,4 +132,4 @@ You should not be working on these (or even thinking about them) until you have 
 - Create a CLI to interact with your hotel system
 
 ## What we're looking for
-You can find what instructors will be looking for in the [feedback](feedback.md) markdown document. 
+You can find what instructors will be looking for in the [feedback](feedback.md) markdown document.
