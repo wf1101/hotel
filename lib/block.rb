@@ -9,10 +9,12 @@ class Block
     @rooms = rooms
   end
 
-  def find_block_rooms
-
+  def available_rooms
+    @rooms.find_all{|room| room.reservations.start_date != @start_date && room.reservation.end_date != @end_date}
   end
 
-  
-
+  def find_next_room
+    raise ArgumentError.new("No available room in the block") if available_rooms.empty?
+    return available_rooms.first
+  end
 end

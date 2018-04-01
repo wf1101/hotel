@@ -16,14 +16,11 @@ class Room
   end
 
   def find_reservations(date)
-    res_on_date = @reservations
-    res_on_date.find_all { |res| (res.start_date...res.end_date).include?(date)}
+    return @reservations.find_all { |res| (res.start_date...res.end_date).include?(date)}
+  end
 
-    return res_on_date
-   end
+  def add_reservation(reservation)
+    @reservations << reservation
+  end
 
-   def add_reservation(reservation)
-   @reservations << reservation
-   end
-   
 end
