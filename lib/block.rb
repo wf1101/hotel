@@ -9,4 +9,10 @@ class Block
     @rooms = rooms
   end
 
+  def find_block_rooms
+
+  end
+
+  
+
 end

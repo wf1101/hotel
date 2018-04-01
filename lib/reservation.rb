@@ -8,9 +8,8 @@ class Reservation
   end
 
   def overlap?(first_date, second_date)
-    flag = true
     return false if first_date >= @end_date || second_date <= @start_date
-    return flag
+    return true
   end
 
   def get_cost
