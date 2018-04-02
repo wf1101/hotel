@@ -1,5 +1,5 @@
 class Admin
-  attr_reader :rooms_reservations, :blocks
+  attr_reader :rooms, :blocks
 
   def initialize
     @rooms = create_rooms
@@ -45,32 +45,14 @@ class Admin
     return new_reservation
   end
 
-  # def find_available_rooms(start_date, end_date)
-  #   date_valid?(start_date, end_date)
-  #   available_rooms = @rooms_reservations.keys
-  #
-  #   @rooms_reservations.each do |room, reservations|
-  #     if !reservations.find{|reservation| reservation.overlap?(start_date, end_date)}.nil?
-  #       available_rooms.delete(room)
-  #     end
-  #   end
-  #
-  #   return available_rooms - list_blocked_rooms(start_date, end_date)
-  # end
-
   def check_reservations(date)
     raise StandardError.new("Invalid date") if date < Date.today
 
     res_on_date = []
     @rooms.each do |room|
-      res_on_date << room.find_reservations(date)
+      res = room.find_reservations(date)
+      res_on_date << res if !res.nil?
     end
-    # @rooms_reservations.values.each do |reservations|
-    #   reservations.each do |reservation|
-    #     date_range = (reservation.start_date...reservation.end_date)
-    #     reservations_on_date << reservation if date_range.include?(date)
-    #   end
-    # end
 
     return res_on_date
   end
@@ -101,26 +83,11 @@ class Admin
     blocked_rooms = []
 
     @blocks.each do |block|
-      blocked_rooms << block.rooms
+      blocked_rooms += block.rooms
     end
 
     return blocked_rooms
   end
-
-  # def check_block_rooms(block)
-  #   return block.rooms.reject do |room|
-  #     @rooms_reservations[room].any? do |res|
-  #       res.start_date == block.start_date && res.end_date == block.end_date
-  #     end
-  #   end
-  # end
-
-  # def find_next_block_room(block)
-  #   available_block_rooms = block.available_rooms
-  #   raise ArgumentError.new("No available room in the block") if available_block_rooms.empty?
-  #
-  #   return available_block_rooms.first
-  # end
 
   def reserve_block_room(block)
     room = block.find_next_room

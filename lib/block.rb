@@ -10,7 +10,7 @@ class Block
   end
 
   def available_rooms
-    @rooms.find_all{|room| room.reservations.start_date != @start_date && room.reservation.end_date != @end_date}
+    @rooms.drop_while { |room| room.reservations.any? {|res| res.start_date == @start_date && res.end_date == @end_date} }
   end
 
   def find_next_room
